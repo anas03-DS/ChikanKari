@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Management - Chikankari Artisans</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>Chikankari Artisans</h2>
+                <p>Admin Panel</p>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="products.html"><i class="fas fa-box"></i> Products</a>
+                    </li>
+                    <li>
+                        <a href="orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+                    </li>
+                    <li>
+                        <a href="artisans.html"><i class="fas fa-users"></i> Artisans</a>
+                    </li>
+                    <li>
+                        <a href="customers.html"><i class="fas fa-user-friends"></i> Customers</a>
+                    </li>
+                    <li>
+                        <a href="payments.html"><i class="fas fa-credit-card"></i> Payments</a>
+                    </li>
+                    <li>
+                        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="admin-header-left">
+                    <button id="toggle-sidebar" class="toggle-sidebar-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Products Management</h1>
+                </div>
+                <div class="admin-header-right">
+                    <div class="admin-search">
+                        <input type="text" placeholder="Search products...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="admin-notifications">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <img src="../images/placeholder.jpg" alt="Admin">
+                        <span>Admin User</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="content-header">
+                    <div class="content-header-left">
+                        <h2>All Products</h2>
+                        <p>Manage your product inventory</p>
+                    </div>
+                    <div class="content-header-right">
+                        <button class="add-new-btn" id="add-product-btn">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="kurta">Kurta</option>
+                            <option value="saree">Saree</option>
+                            <option value="dupatta">Dupatta</option>
+                            <option value="home-decor">Home Decor</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option value="">All Artisans</option>
+                            <option value="1">Aisha Khan</option>
+                            <option value="2">Rahul Sharma</option>
+                            <option value="3">Meera Patel</option>
+                            <option value="4">Vijay Kapoor</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="out-of-stock">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn">Filter</button>
+                        <button class="reset-btn">Reset</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="admin-table products-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="select-all">
+                                </th>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Artisan</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="product-checkbox">
+                                </td>
+                                <td>
+                                    <img src="img1.jpg" alt="Product" class="product-thumbnail">
+                                </td>
+                                <td>Chikankari Embroidered Kurta</td>
+                                <td>Kurta</td>
+                                <td>Aisha Khan</td>
+                                <td>₹2,500</td>
+                                <td>25</td>
+                                <td><span class="status-badge in-stock">In Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="product-checkbox">
+                                </td>
+                                <td>
+                                    <img src="img2.webp" alt="Product" class="product-thumbnail">
+                                </td>
+                                <td>Hand-stitched Chikankari Saree</td>
+                                <td>Saree</td>
+                                <td>Rahul Sharma</td>
+                                <td>₹5,800</td>
+                                <td>12</td>
+                                <td><span class="status-badge in-stock">In Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="product-checkbox">
+                                </td>
+                                <td>
+                                    <img src="img3.webp" alt="Product" class="product-thumbnail">
+                                </td>
+                                <td>Chikankari Table Runner</td>
+                                <td>Home Decor</td>
+                                <td>Meera Patel</td>
+                                <td>₹1,200</td>
+                                <td>5</td>
+                                <td><span class="status-badge low-stock">Low Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="product-checkbox">
+                                </td>
+                                <td>
+                                    <img src="img4.webp" alt="Product" class="product-thumbnail">
+                                </td>
+                                <td>Embroidered Chikankari Dupatta</td>
+                                <td>Dupatta</td>
+                                <td>Vijay Kapoor</td>
+                                <td>₹1,800</td>
+                                <td>0</td>
+                                <td><span class="status-badge out-of-stock">Out of Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button class="pagination-btn prev-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-numbers">
+                        <button class="pagination-number active">1</button>
+                        <button class="pagination-number">2</button>
+                        <button class="pagination-number">3</button>
+                        <span class="pagination-ellipsis">...</span>
+                        <button class="pagination-number">10</button>
+                    </div>
+                    <button class="pagination-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="add-product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Product</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-product-form">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" name="product-name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-category">Category</label>
+                            <select id="product-category" name="product-category" required>
+                                <option value="">Select Category</option>
+                                <option value="kurta">Kurta</option>
+                                <option value="saree">Saree</option>
+                                <option value="dupatta">Dupatta</option>
+                                <option value="home-decor">Home Decor</option>
+                                <option value="accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-artisan">Artisan</label>
+                            <select id="product-artisan" name="product-artisan" required>
+                                <option value="">Select Artisan</option>
+                                <option value="1">Aisha Khan</option>
+                                <option value="2">Rahul Sharma</option>
+                                <option value="3">Meera Patel</option>
+                                <option value="4">Vijay Kapoor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-price">Price (₹)</label>
+                            <input type="number" id="product-price" name="product-price" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-stock">Stock Quantity</label>
+                            <input type="number" id="product-stock" name="product-stock" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" name="product-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Product Images</label>
+                        <div class="file-upload">
+                            <input type="file" id="product-image" name="product-image" multiple accept="image/*">
+                            <label for="product-image" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Choose files or drag & drop</span>
+                            </label>
+                        </div>
+                        <div class="image-preview" id="image-preview"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="save-btn">Add Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/admin.js"></script>
+</body>
+</html> 

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management - Chikankari Artisans</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>Chikankari Artisans</h2>
+                <p>Admin Panel</p>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="products.html"><i class="fas fa-box"></i> Products</a>
+                    </li>
+                    <li class="active">
+                        <a href="orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+                    </li>
+                    <li>
+                        <a href="artisans.html"><i class="fas fa-users"></i> Artisans</a>
+                    </li>
+                    <li>
+                        <a href="customers.html"><i class="fas fa-user-friends"></i> Customers</a>
+                    </li>
+                    <li>
+                        <a href="payments.html"><i class="fas fa-credit-card"></i> Payments</a>
+                    </li>
+                    <li>
+                        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+        
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="admin-header-left">
+                    <button id="toggle-sidebar" class="toggle-sidebar-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Orders Management</h1>
+                </div>
+                <div class="admin-header-right">
+                    <div class="admin-search">
+                        <input type="text" placeholder="Search orders...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="admin-notifications">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="admin-profile">
+                        <img src="../images/placeholder.jpg" alt="Admin">
+                        <span>Admin User</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <div class="content-header">
+                    <div class="content-header-left">
+                        <h2>All Orders</h2>
+                        <p>Manage and process customer orders</p>
+                    </div>
+                    <div class="content-header-right">
+                        <button class="add-new-btn" id="export-orders-btn">
+                            <i class="fas fa-file-export"></i> Export Orders
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option value="">All Payment Status</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Failed</option>
+                            <option value="refunded">Refunded</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <input type="date" class="filter-date" placeholder="From Date">
+                    </div>
+                    <div class="filter-group">
+                        <input type="date" class="filter-date" placeholder="To Date">
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn">Filter</button>
+                        <button class="reset-btn">Reset</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="admin-table orders-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="select-all">
+                                </th>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="order-checkbox">
+                                </td>
+                                <td>#ORD-2458</td>
+                                <td>Priya Sharma</td>
+                                <td>19 Jun 2024</td>
+                                <td>2</td>
+                                <td>₹3,200</td>
+                                <td><span class="status-badge completed">Paid</span></td>
+                                <td><span class="status-badge completed">Delivered</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn invoice-btn" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="order-checkbox">
+                                </td>
+                                <td>#ORD-2457</td>
+                                <td>Rahul Verma</td>
+                                <td>18 Jun 2024</td>
+                                <td>1</td>
+                                <td>₹1,850</td>
+                                <td><span class="status-badge completed">Paid</span></td>
+                                <td><span class="status-badge processing">Processing</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn invoice-btn" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="order-checkbox">
+                                </td>
+                                <td>#ORD-2456</td>
+                                <td>Neha Gupta</td>
+                                <td>18 Jun 2024</td>
+                                <td>3</td>
+                                <td>₹4,500</td>
+                                <td><span class="status-badge completed">Paid</span></td>
+                                <td><span class="status-badge completed">Delivered</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn invoice-btn" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="order-checkbox">
+                                </td>
+                                <td>#ORD-2455</td>
+                                <td>Amit Patel</td>
+                                <td>17 Jun 2024</td>
+                                <td>1</td>
+                                <td>₹2,100</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn invoice-btn" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="order-checkbox">
+                                </td>
+                                <td>#ORD-2454</td>
+                                <td>Sneha Reddy</td>
+                                <td>16 Jun 2024</td>
+                                <td>2</td>
+                                <td>₹3,750</td>
+                                <td><span class="status-badge completed">Paid</span></td>
+                                <td><span class="status-badge completed">Delivered</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn invoice-btn" title="Invoice"><i class="fas fa-file-invoice"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button class="pagination-btn prev-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                    <div class="pagination-numbers">
+                        <button class="pagination-number active">1</button>
+                        <button class="pagination-number">2</button>
+                        <button class="pagination-number">3</button>
+                        <span class="pagination-ellipsis">...</span>
+                        <button class="pagination-number">8</button>
+                    </div>
+                    <button class="pagination-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal" id="order-detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details - #ORD-2458</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-detail-grid">
+                    <div class="order-info">
+                        <h3>Order Information</h3>
+                        <div class="info-group">
+                            <div class="info-label">Order ID:</div>
+                            <div class="info-value">#ORD-2458</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Date:</div>
+                            <div class="info-value">19 Jun 2024, 14:35</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Status:</div>
+                            <div class="info-value"><span class="status-badge completed">Delivered</span></div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Payment:</div>
+                            <div class="info-value"><span class="status-badge completed">Paid</span></div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Payment Method:</div>
+                            <div class="info-value">Credit Card (Stripe)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <h3>Customer Information</h3>
+                        <div class="info-group">
+                            <div class="info-label">Name:</div>
+                            <div class="info-value">Priya Sharma</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Email:</div>
+                            <div class="info-value">priya.sharma@example.com</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">+91 98765 43210</div>
+                        </div>
+                    </div>
+                    
+                    <div class="shipping-info">
+                        <h3>Shipping Address</h3>
+                        <p>
+                            Priya Sharma<br>
+                            123 Green Park<br>
+                            Lucknow, Uttar Pradesh 226001<br>
+                            India
+                        </p>
+                    </div>
+                    
+                    <div class="billing-info">
+                        <h3>Billing Address</h3>
+                        <p>
+                            Priya Sharma<br>
+                            123 Green Park<br>
+                            Lucknow, Uttar Pradesh 226001<br>
+                            India
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="order-items">
+                    <h3>Order Items</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="img1.jpg" alt="Product" class="product-thumbnail">
+                                        <div>
+                                            <div class="product-name">Chikankari Embroidered Kurta</div>
+                                            <div class="product-meta">Size: M, Color: White</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹1,500</td>
+                                <td>1</td>
+                                <td>₹1,500</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <img src=".img3.webp" alt="Product" class="product-thumbnail">
+                                        <div>
+                                            <div class="product-name">Chikankari Table Runner</div>
+                                            <div class="product-meta">Color: Blue</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>₹1,200</td>
+                                <td>1</td>
+                                <td>₹1,200</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right">Subtotal:</td>
+                                <td>₹2,700</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right">Shipping:</td>
+                                <td>₹150</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right">Tax (GST 18%):</td>
+                                <td>₹350</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="3" class="text-right">Total:</td>
+                                <td>₹3,200</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+                <div class="order-actions">
+                    <div class="status-update">
+                        <label for="order-status">Update Status:</label>
+                        <select id="order-status">
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered" selected>Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <button class="update-status-btn">Update</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="invoice-btn"><i class="fas fa-file-invoice"></i> Generate Invoice</button>
+                        <button class="print-btn"><i class="fas fa-print"></i> Print Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/admin.js"></script>
+</body>
+</html> 
