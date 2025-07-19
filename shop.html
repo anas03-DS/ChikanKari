@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Chikankari Artisans</title>
+    <link rel="stylesheet" href="css/style.css?v=1.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to shop page */
+        .shop-container {
+            padding: 4rem 2rem;
+        }
+        
+        .filter-section {
+            background-color: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-group h4 {
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-options label {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+        
+        .filter-options input {
+            margin-right: 0.5rem;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .price-input {
+            width: 100px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .sort-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .sort-dropdown {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .results-count {
+            color: var(--secondary-color);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: var(--text-color);
+        }
+        
+        .pagination a.active, .pagination a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .shop-container {
+                padding: 2rem 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .sort-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .pagination {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="https://thechikankari.com/cdn/shop/files/Chikan_kari-01_eebe52d6-4137-4ed3-9d5c-a385cc9e0be4.png?height=628&pad_color=ffffff&v=1725889734&width=1200" alt="Chikankari Artisans Logo" style="height:100px;">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="artisans.html">Artisans</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="login-btn"><a href="login.html">Login</a></li>
+            </ul>
+            <div class="cart-wrapper">
+                <a href="checkout.html" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="shop-banner">
+            <div class="container">
+                <h1>Shop Authentic Chikankari</h1>
+                <p>Browse our collection of exquisite Chikankari crafts directly from talented artisans</p>
+            </div>
+        </div>
+
+        <div class="shop-container container">
+            <div class="filter-section">
+                <h3 class="filter-title">Filter Products</h3>
+                <form id="filter-form">
+                    <div class="filter-group">
+                        <h4>Product Category</h4>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="category" value="kurta"> Kurta
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="saree"> Saree
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="dupatta"> Dupatta
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="home-decor"> Home Decor
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="accessories"> Accessories
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Price Range</h4>
+                        <div class="price-range">
+                            <input type="number" class="price-input" placeholder="Min" name="min-price">
+                            <span>to</span>
+                            <input type="number" class="price-input" placeholder="Max" name="max-price">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Artisan Location</h4>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="location" value="lucknow"> Lucknow
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="varanasi"> Varanasi
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="jaipur"> Jaipur
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="delhi"> Delhi
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-buttons">
+                        <button type="submit" class="btn primary-btn">Apply Filters</button>
+                        <button type="reset" class="btn secondary-btn">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="shop-content">
+                <div class="sort-section">
+                    <div class="results-count">Showing <span id="results-number">24</span> products</div>
+                    <div class="sort-options">
+                        <label for="sort-select">Sort by:</label>
+                        <select id="sort-select" class="sort-dropdown">
+                            <option value="featured">Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="newest">Newest</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="products-container">
+                    <!-- Products will be dynamically loaded via JavaScript -->
+                    <!-- Direct HTML backup products in case JS fails -->
+                     <div class="product-card">
+                        <div class="product-image">
+                            <img src="D:\Cursor AI Projects\chikankari project\img1.jpg" alt="Chikankari Embroidered Kurta" onerror="this.src='images/placeholder.jpg'">
+                        </div>
+                        <div class="product-info">
+                            <h3>Chikankari Embroidered Kurta</h3>
+                            <p class="artisan-name">By Aisha Khan</p>
+                            <span class="price">₹2500</span>
+                            <div class="product-buttons">
+                                <button onclick="addToCart(1)" class="btn primary-btn add-to-cart-btn" style="background-color: #e91e63; color: white; font-weight: bold;">
+                                    <i class="fas fa-shopping-cart"></i> ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="img1.jpg" alt="Hand-stitched Chikankari Saree" onerror="this.src='images/placeholder.jpg'">
+                        </div>
+                        <div class="product-info">
+                            <h3>Hand-stitched Chikankari Saree</h3>
+                            <p class="artisan-name">By Rahul Sharma</p>
+                            <span class="price">₹5800</span>
+                            <div class="product-buttons">
+                                <button onclick="addToCart(2)" class="btn primary-btn add-to-cart-btn" style="background-color: #e91e63; color: white; font-weight: bold;">
+                                    <i class="fas fa-shopping-cart"></i> ADD TO CART
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div> 
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Chikankari Artisans</h3>
+                <p>Connecting artisans directly with customers, preserving tradition while ensuring fair compensation.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Section</h3>
+                <ul>
+                    <li><a href="login.html">Login / Register</a></li>
+                    <li><a href="orders.html">Track Orders</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Artisan Section</h3>
+                <ul>
+                    <li><a href="artisan-login.html">Artisan Login</a></li>
+                    <li><a href="artisan-register.html">Join as Artisan</a></li>
+                    <li><a href="dashboard.html">Artisan Dashboard</a></li>
+                    <li><a href="artisan-help.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Admin Section</h3>
+                <ul>
+                    <li><a href="admin/index.html">Admin Login</a></li>
+                    <li><a href="admin/dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chikankari Artisans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js?v=1.1"></script>
+    <script>
+        // Sample products data (in a real app, this would come from a server/database)
+        const shopProducts = [
+            {
+                id: 1,
+                name: "Chikankari Embroidered Kurta",
+                image: "https://shoplabelaishwaryrika.com/cdn/shop/files/2_6fe0bcba-3f7d-40bd-a7d7-afaba7299a40.jpg?v=1694430805",
+                price: 2500,
+                artisan: "Aisha Khan",
+                category: "kurta",
+                location: "lucknow"
+            },
+            {
+                id: 2,
+                name: "Hand-stitched Chikankari Saree",
+                image: "https://sevachikanlucknow.com/cdn/shop/files/SCL6021_Grey_1_1080x1080.jpg?v=1701235586",
+                price: 5800,
+                artisan: "Rahul Sharma",
+                category: "saree",
+                location: "varanasi"
+            },
+            {
+                id: 3,
+                name: "Chikankari Table Runner",
+                image: "https://okhai.org/cdn/shop/products/2J9A4015_1.jpg?v=1666169512",
+                price: 1200,
+                artisan: "Meera Patel",
+                category: "home-decor",
+                location: "jaipur"
+            },
+            {
+                id: 4,
+                name: "Embroidered Chikankari Dupatta",
+                image: "https://bucketforada.s3.ap-south-1.amazonaws.com/uploads/all/DN2BGm6BUdn3PKgBND4iVePX2niq3zKZRXkEb5K4.jpg",
+                price: 1800,
+                artisan: "Vijay Kapoor",
+                category: "dupatta",
+                location: "lucknow"
+            },
+            {
+                id: 5,
+                name: "Chikankari Cotton Kurta",
+                image: "https://assets.ajio.com/medias/sys_master/root/20240730/d99I/66a8eb1c1d763220fa4d2f61/-473Wx593H-700245297-white-MODEL.jpg",
+                price: 2200,
+                artisan: "Neha Gupta",
+                category: "kurta",
+                location: "delhi"
+            },
+            {
+                id: 6,
+                name: "Traditional Chikankari Cushion Cover",
+                image: "https://decordill.com/wp-content/uploads/2022/09/PSX_20220917_154912-scaled-e1664123377268.jpg",
+                price: 950,
+                artisan: "Raj Kumar",
+                category: "home-decor",
+                location: "jaipur"
+            }
+        ];
+
+        // Function to display products on shop page
+        function displayShopProducts(products) {
+            const productsContainer = document.getElementById('products-container');
+            
+            if (!productsContainer) return;
+            
+            // Clear any existing products
+            productsContainer.innerHTML = '';
+            
+            // Update results count
+            document.getElementById('results-number').textContent = products.length;
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="artisan-name">By ${product.artisan}</p>
+                        <span class="price">₹${product.price}</span>
+                        <div class="product-buttons">
+                            <a href="product-details.html?id=${product.id}" class="btn primary-btn">View Details</a>
+                        </div>
+                    </div>
+                `;
+                
+                productsContainer.appendChild(productCard);
+            });
+        }
+
+        // Filter products based on form input
+        function filterProducts() {
+            const filterForm = document.getElementById('filter-form');
+            
+            if (!filterForm) return;
+            
+            filterForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(filterForm);
+                const selectedCategories = formData.getAll('category');
+                const selectedLocations = formData.getAll('location');
+                const minPrice = formData.get('min-price') !== '' ? parseInt(formData.get('min-price')) : 0;
+                const maxPrice = formData.get('max-price') !== '' ? parseInt(formData.get('max-price')) : Infinity;
+                
+                // Filter products based on selection
+                let filteredProducts = shopProducts.filter(product => {
+                    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+                    const locationMatch = selectedLocations.length === 0 || selectedLocations.includes(product.location);
+                    const priceMatch = product.price >= minPrice && product.price <= maxPrice;
+                    
+                    return categoryMatch && locationMatch && priceMatch;
+                });
+                
+                // Sort products if sort option is selected
+                const sortOption = document.getElementById('sort-select').value;
+                sortProducts(filteredProducts, sortOption);
+                
+                // Display filtered products
+                displayShopProducts(filteredProducts);
+            });
+            
+            // Handle reset button
+            filterForm.addEventListener('reset', function() {
+                setTimeout(() => {
+                    displayShopProducts(shopProducts);
+                }, 10);
+            });
+        }
+
+        // Sort products based on selected option
+        function sortProducts(products, sortOption) {
+            switch (sortOption) {
+                case 'price-low':
+                    products.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    products.sort((a, b) => b.price - a.price);
+                    break;
+                case 'newest':
+                    // In a real app, you would sort by date added
+                    products.sort((a, b) => b.id - a.id);
+                    break;
+                case 'popular':
+                    // In a real app, you would sort by popularity metric
+                    products; // No sorting for demo
+                    break;
+                default:
+                    // Featured (default) - no specific sort
+                    products;
+            }
+        }
+
+        // Sort products when sort option changes
+        function handleSort() {
+            const sortSelect = document.getElementById('sort-select');
+            
+            if (!sortSelect) return;
+            
+            sortSelect.addEventListener('change', function() {
+                // Get current filtered products (or all products if no filters applied)
+                // In a real app, you would track the current filtered state
+                const products = [...shopProducts];
+                
+                // Sort products based on selected option
+                sortProducts(products, this.value);
+                
+                // Display sorted products
+                displayShopProducts(products);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayShopProducts(shopProducts);
+            filterProducts();
+            handleSort();
+        });
+    </script>
+</body>
+</html>

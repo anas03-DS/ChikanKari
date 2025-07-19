@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join as an Artisan - Chikankari Artisans</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to artisan registration page */
+        .registration-container {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .registration-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .registration-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .registration-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .registration-form {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-title {
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkbox-group input {
+            margin-right: 0.5rem;
+            width: auto;
+        }
+        
+        .file-upload {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .file-upload label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            display: block;
+        }
+        
+        .upload-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .upload-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .upload-preview {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .preview-item {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-preview {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .form-note {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-top: 0.5rem;
+        }
+        
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .form-group input.error, 
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: var(--danger-color);
+        }
+        
+        .form-submit {
+            margin-top: 2rem;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .benefits-section {
+            padding: 5rem 2rem;
+            background-color: var(--light-color);
+        }
+        
+        .benefits-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .benefits-title h2 {
+            font-size: 2.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefit-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(232, 62, 140, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .benefit-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .benefit-card p {
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 992px) {
+            .registration-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .registration-image {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .section-header h1 {
+                font-size: 2rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://thechikankari.com/cdn/shop/files/Chikan_kari-01_eebe52d6-4137-4ed3-9d5c-a385cc9e0be4.png?height=628&pad_color=ffffff&v=1725889734&width=1200" alt="Chikankari Artisans Logo" style="height:100px;">
+                <h1>Chikankari Artisans</h1>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="artisans.html">Artisans</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="login-btn"><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="registration-container">
+            <div class="section-header">
+                <h1>Join Our Artisan Community</h1>
+                <p>Showcase your Chikankari crafts directly to customers worldwide and earn fair compensation for your work</p>
+            </div>
+
+            <div class="registration-content">
+                <div class="registration-image">
+                    <img src="images/artisan-registration.jpg" alt="Artisan working on Chikankari embroidery" onerror="this.src='images/placeholder.jpg'">
+                </div>
+
+                <div class="registration-form">
+                    <h2 class="form-title">Create Your Artisan Account</h2>
+                    <form id="artisan-register-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name <span class="required">*</span></label>
+                                <input type="text" id="first-name" name="first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name <span class="required">*</span></label>
+                                <input type="text" id="last-name" name="last-name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="password">Password <span class="required">*</span></label>
+                                <input type="password" id="password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm Password <span class="required">*</span></label>
+                                <input type="password" id="confirm-password" name="confirm-password" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="specialty">Specialty <span class="required">*</span></label>
+                            <select id="specialty" name="specialty" required>
+                                <option value="">Select your specialty</option>
+                                <option value="kurta">Kurta / Clothing</option>
+                                <option value="saree">Saree</option>
+                                <option value="dupatta">Dupatta</option>
+                                <option value="home-decor">Home Decor</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">Years of Experience <span class="required">*</span></label>
+                            <select id="experience" name="experience" required>
+                                <option value="">Select experience level</option>
+                                <option value="1-3">1-3 years</option>
+                                <option value="4-6">4-6 years</option>
+                                <option value="7-10">7-10 years</option>
+                                <option value="10+">More than 10 years</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location <span class="required">*</span></label>
+                            <input type="text" id="location" name="location" placeholder="City, State" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bio">About Yourself & Your Work <span class="required">*</span></label>
+                            <textarea id="bio" name="bio" rows="4" required></textarea>
+                            <p class="form-note">Tell us about your journey, skills, and the story behind your craft (minimum 100 characters)</p>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="file-upload">
+                                <label>Upload Portfolio Images <span class="required">*</span></label>
+                                <input type="file" id="portfolio-images" name="portfolio-images" multiple accept="image/*" style="display: none" required>
+                                <label for="portfolio-images" class="upload-btn">
+                                    <i class="fas fa-cloud-upload-alt"></i> Select Images
+                                </label>
+                                <p class="form-note">Upload at least 3 images of your work (max 5MB each)</p>
+                                <div class="upload-preview" id="image-preview">
+                                    <!-- Preview images will be added here via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></label>
+                        </div>
+
+                        <div class="form-submit">
+                            <button type="submit" class="btn primary-btn" style="width: 100%">Create Account</button>
+                        </div>
+
+                        <div class="login-link">
+                            Already have an account? <a href="artisan-login.html">Login here</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits-section">
+            <div class="benefits-title">
+                <h2>Benefits of Joining Our Platform</h2>
+                <p>Why artisans choose us to showcase and sell their crafts</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Direct Profit</h3>
+                    <p>Earn fair compensation without middlemen taking a large cut of your earnings</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <h3>Global Reach</h3>
+                    <p>Showcase your creations to customers around the world from your workshop</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Growth Opportunities</h3>
+                    <p>Access tools and resources to build your brand and grow your customer base</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Support</h3>
+                    <p>Join a supportive community of fellow artisans preserving traditional crafts</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Creative Freedom</h3>
+                    <p>Maintain creative control over your designs while expanding your market</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Easy to Use Platform</h3>
+                    <p>Simple tools for listing products, managing orders, and tracking earnings</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Chikankari Artisans</h3>
+                <p>Connecting artisans directly with customers, preserving tradition while ensuring fair compensation.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Section</h3>
+                <ul>
+                    <li><a href="login.html">Login / Register</a></li>
+                    <li><a href="orders.html">Track Orders</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Artisan Section</h3>
+                <ul>
+                    <li><a href="artisan-login.html">Artisan Login</a></li>
+                    <li><a href="artisan-register.html">Join as Artisan</a></li>
+                    <li><a href="dashboard.html">Artisan Dashboard</a></li>
+                    <li><a href="artisan-help.html">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chikankari Artisans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Handle portfolio image upload and preview
+        document.addEventListener('DOMContentLoaded', function() {
+            const portfolioInput = document.getElementById('portfolio-images');
+            const imagePreview = document.getElementById('image-preview');
+            
+            if (portfolioInput && imagePreview) {
+                portfolioInput.addEventListener('change', function() {
+                    // Clear previous previews
+                    imagePreview.innerHTML = '';
+                    
+                    if (this.files) {
+                        // Limit to 5 files
+                        const filesToProcess = Array.from(this.files).slice(0, 5);
+                        
+                        filesToProcess.forEach(file => {
+                            if (!file.type.startsWith('image/')) return;
+                            
+                            const reader = new FileReader();
+                            
+                            reader.onload = function(e) {
+                                const previewItem = document.createElement('div');
+                                previewItem.className = 'preview-item';
+                                
+                                previewItem.innerHTML = `
+                                    <img src="${e.target.result}" alt="Portfolio preview">
+                                    <div class="remove-preview">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                `;
+                                
+                                imagePreview.appendChild(previewItem);
+                                
+                                // Add event listener to remove button
+                                previewItem.querySelector('.remove-preview').addEventListener('click', function() {
+                                    previewItem.remove();
+                                });
+                            };
+                            
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                });
+            }
+            
+            // Form validation
+            const registerForm = document.getElementById('artisan-register-form');
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let isValid = true;
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    const bio = document.getElementById('bio').value;
+                    
+                    // Check password match
+                    if (password !== confirmPassword) {
+                        isValid = false;
+                        const confirmPasswordInput = document.getElementById('confirm-password');
+                        confirmPasswordInput.classList.add('error');
+                        
+                        let errorMessage = document.createElement('p');
+                        errorMessage.className = 'error-message';
+                        errorMessage.textContent = 'Passwords do not match';
+                        
+                        if (!confirmPasswordInput.nextElementSibling || !confirmPasswordInput.nextElementSibling.classList.contains('error-message')) {
+                            confirmPasswordInput.insertAdjacentElement('afterend', errorMessage);
+                        }
+                    }
+                    
+                    // Check bio length
+                    if (bio.length < 100) {
+                        isValid = false;
+                        const bioInput = document.getElementById('bio');
+                        bioInput.classList.add('error');
+                        
+                        let errorMessage = document.createElement('p');
+                        errorMessage.className = 'error-message';
+                        errorMessage.textContent = 'Bio must be at least 100 characters';
+                        
+                        if (!bioInput.nextElementSibling.nextElementSibling || !bioInput.nextElementSibling.nextElementSibling.classList.contains('error-message')) {
+                            bioInput.nextElementSibling.insertAdjacentElement('afterend', errorMessage);
+                        }
+                    }
+                    
+                    // Check portfolio images
+                    const portfolioInput = document.getElementById('portfolio-images');
+                    if (portfolioInput.files.length < 3) {
+                        isValid = false;
+                        const portfolioContainer = document.querySelector('.file-upload');
+                        
+                        let errorMessage = document.createElement('p');
+                        errorMessage.className = 'error-message';
+                        errorMessage.textContent = 'Please upload at least 3 portfolio images';
+                        
+                        if (!portfolioContainer.querySelector('.error-message')) {
+                            portfolioContainer.appendChild(errorMessage);
+                        }
+                    }
+                    
+                    // If form is valid, submit (in a real app, this would send data to server)
+                    if (isValid) {
+                        alert('Registration successful! We will review your application and get back to you soon.');
+                        registerForm.reset();
+                        imagePreview.innerHTML = '';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

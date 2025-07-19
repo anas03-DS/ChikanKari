@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Chikankari Artisans</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Checkout specific styles */
+        .checkout-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .checkout-form {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .order-summary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        
+        .checkout-header {
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .item-price {
+            color: #666;
+        }
+        
+        .item-qty {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        
+        .order-final-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #ddd;
+            font-weight: 600;
+            color: #000;
+        }
+        
+        .payment-methods {
+            margin: 1.5rem 0;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .payment-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(127, 90, 131, 0.05);
+        }
+        
+        .payment-option input {
+            margin-right: 1rem;
+        }
+        
+        .payment-option-icon {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .payment-option-details {
+            flex: 1;
+        }
+        
+        .payment-option-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .payment-option-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .credit-card-form {
+            margin-top: 1.5rem;
+        }
+        
+        #card-element {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        #card-errors {
+            color: var(--danger-color);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .place-order-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .place-order-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .order-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: -30%;
+            width: 60%;
+            border-bottom: 2px dashed #ddd;
+            z-index: -1;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--primary-color);
+        }
+        
+        .step-title {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .step.active .step-title {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .checkout-breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .checkout-breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="https://thechikankari.com/cdn/shop/files/Chikan_kari-01_eebe52d6-4137-4ed3-9d5c-a385cc9e0be4.png?height=628&pad_color=ffffff&v=1725889734&width=1200" alt="Chikankari Artisans Logo" style="height:100px;">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="artisans.html">Artisans</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="login-btn"><a href="login.html">Login</a></li>
+            </ul>
+            <div class="cart-wrapper">
+                <a href="checkout.html" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="checkout-container">
+            <div class="checkout-breadcrumb">
+                <a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <a href="cart.html">Cart</a> / Checkout
+            </div>
+            
+            <div class="checkout-header">
+                <h1>Checkout</h1>
+                
+                <div class="order-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Cart</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Checkout</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Order Complete</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="checkout-grid">
+                <div class="checkout-form">
+                    <form id="checkout-form">
+                        <div class="form-section">
+                            <h2 class="form-section-title">Shipping Information</h2>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" id="first-name" name="first-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" name="last-name" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Street Address</label>
+                                <input type="text" id="address" name="address" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" name="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State</label>
+                                    <input type="text" id="state" name="state" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="postal-code">Postal Code</label>
+                                    <input type="text" id="postal-code" name="postal-code" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select id="country" name="country" required>
+                                        <option value="India">India</option>
+                                        <option value="United States">United States</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="Canada">Canada</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h2 class="form-section-title">Payment Method</h2>
+                            <div class="payment-methods">
+                                <div class="payment-option active" data-method="stripe">
+                                    <input type="radio" name="payment-method" id="credit-card" value="stripe" checked>
+                                    <div class="payment-option-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="payment-option-details">
+                                        <div class="payment-option-title">Credit/Debit Card</div>
+                                        <div class="payment-option-description">Pay securely with your credit or debit card</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-option" data-method="paypal">
+                                    <input type="radio" name="payment-method" id="paypal" value="paypal">
+                                    <div class="payment-option-icon">
+                                        <i class="fab fa-paypal"></i>
+                                    </div>
+                                    <div class="payment-option-details">
+                                        <div class="payment-option-title">PayPal</div>
+                                        <div class="payment-option-description">Pay securely with your PayPal account</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-option" data-method="cod">
+                                    <input type="radio" name="payment-method" id="cod" value="cod">
+                                    <div class="payment-option-icon">
+                                        <i class="fas fa-money-bill"></i>
+                                    </div>
+                                    <div class="payment-option-details">
+                                        <div class="payment-option-title">Cash on Delivery</div>
+                                        <div class="payment-option-description">Pay when you receive your order</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-details" id="stripe-payment">
+                                <div class="credit-card-form">
+                                    <div id="card-element"></div>
+                                    <div id="card-errors" role="alert"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-details" id="paypal-payment" style="display: none;">
+                                <p>Click "Place Order" to complete your purchase with PayPal.</p>
+                            </div>
+                            
+                            <div class="payment-details" id="cod-payment" style="display: none;">
+                                <p>You will pay when your order is delivered.</p>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="place-order-btn" id="place-order-btn">Place Order</button>
+                    </form>
+                </div>
+                
+                <div class="order-summary">
+                    <h2 class="form-section-title">Order Summary</h2>
+                    
+                    <div class="order-items" id="checkout-items">
+                        <!-- Cart items will be loaded here dynamically -->
+                    </div>
+                    
+                    <div class="order-totals">
+                        <div class="order-total-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal-amount">₹0</span>
+                        </div>
+                        <div class="order-total-row">
+                            <span>Shipping</span>
+                            <span id="shipping-amount">₹150</span>
+                        </div>
+                        <div class="order-total-row">
+                            <span>GST (18%)</span>
+                            <span id="tax-amount">₹0</span>
+                        </div>
+                        <div class="order-final-row">
+                            <span>Total</span>
+                            <span id="total-amount">₹0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Chikankari Artisans</h3>
+                <p>We connect traditional artisans with global customers, preserving the rich heritage of Chikankari embroidery while ensuring fair compensation for skilled craftspeople.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Chikan Gali, Lucknow, UP, India</p>
+                <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope"></i> info@chikankariartisans.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Admin Section</h3>
+                <ul>
+                    <li><a href="admin/index.html">Admin Login</a></li>
+                    <li><a href="admin/dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chikankari Artisans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart items
+            loadCartItems();
+            
+            // Initialize Stripe
+            const stripe = Stripe('pk_test_51PbcnQVL0d5mm3axVxQn6WxZKBqOJqFKdLZ1xyq'); // Replace with your actual publishable key
+            const elements = stripe.elements();
+            
+            // Create card element
+            const cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#32325d',
+                    }
+                }
+            });
+            
+            // Mount the card element
+            cardElement.mount('#card-element');
+            
+            // Handle payment method selection
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const paymentDetails = document.querySelectorAll('.payment-details');
+            
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    paymentOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to selected option
+                    this.classList.add('active');
+                    
+                    // Get payment method
+                    const method = this.dataset.method;
+                    
+                    // Check the corresponding radio button
+                    this.querySelector('input[type="radio"]').checked = true;
+                    
+                    // Hide all payment details
+                    paymentDetails.forEach(detail => detail.style.display = 'none');
+                    
+                    // Show selected payment details
+                    document.getElementById(`${method}-payment`).style.display = 'block';
+                });
+            });
+            
+            // Handle form submission
+            const checkoutForm = document.getElementById('checkout-form');
+            const orderButton = document.getElementById('place-order-btn');
+            
+            checkoutForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                
+                // Disable the submit button to prevent multiple submissions
+                orderButton.disabled = true;
+                orderButton.textContent = 'Processing...';
+                
+                // Get selected payment method
+                const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+                
+                try {
+                    // Mock order creation (in a real app, this would be an API call)
+                    const orderId = 'ORD' + Math.floor(Math.random() * 100000);
+                    
+                    if (paymentMethod === 'stripe') {
+                        // Process Stripe payment
+                        try {
+                            // In a real app: Create a payment intent on your server
+                            const clientSecret = 'mock_client_secret'; // This would come from your server
+                            
+                            // Confirm card payment
+                            const result = await stripe.confirmCardPayment(clientSecret, {
+                                payment_method: {
+                                    card: cardElement,
+                                    billing_details: {
+                                        name: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
+                                        email: document.getElementById('email').value
+                                    }
+                                }
+                            });
+                            
+                            if (result.error) {
+                                // Show error
+                                const errorElement = document.getElementById('card-errors');
+                                errorElement.textContent = result.error.message;
+                                orderButton.disabled = false;
+                                orderButton.textContent = 'Place Order';
+                            } else {
+                                // Payment successful
+                                handleSuccessfulPayment(orderId);
+                            }
+                        } catch (error) {
+                            console.error('Payment error:', error);
+                            document.getElementById('card-errors').textContent = 'An error occurred while processing your payment.';
+                            orderButton.disabled = false;
+                            orderButton.textContent = 'Place Order';
+                        }
+                    } else if (paymentMethod === 'paypal') {
+                        // For demo, just simulate PayPal redirect
+                        alert('Redirecting to PayPal...');
+                        setTimeout(() => {
+                            handleSuccessfulPayment(orderId);
+                        }, 2000);
+                    } else if (paymentMethod === 'cod') {
+                        // Cash on delivery requires no payment processing
+                        handleSuccessfulPayment(orderId);
+                    }
+                } catch (error) {
+                    console.error('Checkout error:', error);
+                    alert('There was an error processing your order. Please try again.');
+                    orderButton.disabled = false;
+                    orderButton.textContent = 'Place Order';
+                }
+            });
+            
+            function handleSuccessfulPayment(orderId) {
+                // Clear cart after successful order
+                const savedCart = localStorage.getItem('chikankari_cart');
+                let summary = null;
+                if (savedCart && savedCart !== '[]') {
+                    const cart = JSON.parse(savedCart);
+                    let subtotal = 0;
+                    cart.forEach(item => {
+                        subtotal += item.price * item.quantity;
+                    });
+                    const shipping = 150;
+                    const tax = Math.round(subtotal * 0.18);
+                    const total = subtotal + shipping + tax;
+                    summary = {
+                        items: cart,
+                        subtotal,
+                        shipping,
+                        tax,
+                        total
+                    };
+                    localStorage.setItem('last_order_summary', JSON.stringify(summary));
+                } else {
+                    localStorage.removeItem('last_order_summary');
+                }
+                localStorage.removeItem('chikankari_cart');
+                // Redirect to order confirmation page
+                window.location.href = `order-confirmation.html?id=${orderId}`;
+            }
+            
+            // Load cart items from localStorage
+            function loadCartItems() {
+                const checkoutItems = document.getElementById('checkout-items');
+                const savedCart = localStorage.getItem('chikankari_cart');
+                
+                if (!savedCart || savedCart === '[]') {
+                    checkoutItems.innerHTML = '<p class="empty-cart-message">Your cart is empty.</p>';
+                    document.getElementById('place-order-btn').disabled = true;
+                    return;
+                }
+                
+                const cart = JSON.parse(savedCart);
+                let cartHtml = '';
+                let subtotal = 0;
+                
+                // Generate HTML for each cart item
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    cartHtml += `
+                        <div class="order-item">
+                            <img src="${item.image}" alt="${item.name}" class="item-image" onerror="this.src='images/placeholder.jpg'">
+                            <div class="item-details">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-price">₹${item.price.toLocaleString('en-IN')}</div>
+                                <div class="item-qty">Qty: ${item.quantity}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                checkoutItems.innerHTML = cartHtml;
+                
+                // Calculate and update totals
+                const shipping = 150;
+                const tax = Math.round(subtotal * 0.18);
+                const total = subtotal + shipping + tax;
+                
+                document.getElementById('subtotal-amount').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+                document.getElementById('shipping-amount').textContent = `₹${shipping.toLocaleString('en-IN')}`;
+                document.getElementById('tax-amount').textContent = `₹${tax.toLocaleString('en-IN')}`;
+                document.getElementById('total-amount').textContent = `₹${total.toLocaleString('en-IN')}`;
+                
+                // Also populate shipping form if user details are saved
+                populateShippingForm();
+            }
+            
+            // Populate shipping form if user details are saved
+            function populateShippingForm() {
+                const savedUserDetails = localStorage.getItem('user_details');
+                if (savedUserDetails) {
+                    const userDetails = JSON.parse(savedUserDetails);
+                    
+                    // Fill in the form fields
+                    document.getElementById('first-name').value = userDetails.firstName || '';
+                    document.getElementById('last-name').value = userDetails.lastName || '';
+                    document.getElementById('email').value = userDetails.email || '';
+                    document.getElementById('phone').value = userDetails.phone || '';
+                    document.getElementById('address').value = userDetails.address || '';
+                    document.getElementById('city').value = userDetails.city || '';
+                    document.getElementById('state').value = userDetails.state || '';
+                    document.getElementById('postal-code').value = userDetails.postalCode || '';
+                    document.getElementById('country').value = userDetails.country || 'India';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

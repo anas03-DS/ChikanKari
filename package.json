@@ -1,0 +1,17 @@
+{
+  "name": "chikankari-project",
+  "version": "1.0.0",
+  "description": "Chikankari e-commerce platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx http-server -p 8080",
+    "server": "cd server && npm start",
+    "dev": "concurrently \"npm run server\" \"npm start\""
+  },
+  "dependencies": {
+    "mongodb": "^6.17.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Chikankari Artisans</title>
+    <link rel="stylesheet" href="css/style.css?v=1.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .product-breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .product-breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .product-gallery {
+            position: relative;
+        }
+        
+        .product-main-image {
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-main-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-thumbnails {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+        }
+        
+        .product-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .product-thumbnail.active {
+            border-color: var(--primary-color);
+        }
+        
+        .product-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1rem 0;
+        }
+        
+        .product-title {
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .product-artisan {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .artisan-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+        
+        .artisan-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .artisan-name {
+            color: #666;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .product-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .product-attributes {
+            margin-bottom: 1.5rem;
+        }
+        
+        .attribute-group {
+            margin-bottom: 1rem;
+        }
+        
+        .attribute-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .attribute-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .attribute-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .attribute-option.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .attribute-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .attribute-color.active::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .product-quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quantity-label {
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            background-color: #f8f8f8;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            height: 36px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .wishlist-btn {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .wishlist-btn:hover {
+            background-color: #f8f8f8;
+        }
+        
+        .wishlist-btn i {
+            color: #777;
+            font-size: 1.25rem;
+        }
+        
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .product-meta-item {
+            margin-right: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-meta-label {
+            font-weight: 600;
+            margin-right: 0.25rem;
+        }
+        
+        .product-share {
+            margin-top: 1.5rem;
+        }
+        
+        .share-label {
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .share-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .share-facebook {
+            background-color: #3b5998;
+        }
+        
+        .share-twitter {
+            background-color: #1da1f2;
+        }
+        
+        .share-pinterest {
+            background-color: #bd081c;
+        }
+        
+        .share-whatsapp {
+            background-color: #25d366;
+        }
+        
+        .product-tabs {
+            margin-bottom: 3rem;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #777;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1rem 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .related-products {
+            margin-bottom: 3rem;
+        }
+        
+        .related-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="https://thechikankari.com/cdn/shop/files/Chikan_kari-01_eebe52d6-4137-4ed3-9d5c-a385cc9e0be4.png?height=628&pad_color=ffffff&v=1725889734&width=1200" alt="Chikankari Artisans Logo" style="height:100px;">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="artisans.html">Artisans</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="login-btn"><a href="login.html">Login</a></li>
+            </ul>
+            <div class="cart-wrapper">
+                <a href="checkout.html" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="product-detail-container">
+            <div class="product-breadcrumb">
+                <a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span id="product-breadcrumb-name">Chikankari Embroidered Kurta</span>
+            </div>
+            
+            <div class="product-grid">
+                <div class="product-gallery">
+                    <div class="product-main-image">
+                        <img id="main-product-image" src="https://www.theindiancraftstore.com/cdn/shop/files/IMG-20230207-WA0011.jpg?v=1698067188" alt="Chikankari Embroidered Kurta">
+                    </div>
+                    <div class="product-thumbnails">
+                        <!-- <div class="product-thumbnail active" data-src="https://www.theindiancraftstore.com/cdn/shop/files/IMG-20230207-WA0011.jpg?v=1698067188">
+                            <img src="https://www.theindiancraftstore.com/cdn/shop/files/IMG-20230207-WA0011.jpg?v=1698067188" alt="Thumbnail 1">
+                        </div>
+                        <div class="product-thumbnail" data-src="https://www.theindiancraftstore.com/cdn/shop/files/IMG_20230207_223611.jpg?v=1698067188">
+                            <img src="https://www.theindiancraftstore.com/cdn/shop/files/IMG_20230207_223611.jpg?v=1698067188" alt="Thumbnail 2">
+                        </div>
+                        <div class="product-thumbnail" data-src="https://www.theindiancraftstore.com/cdn/shop/files/IMG_20230207_223625.jpg?v=1698067188">
+                            <img src="https://www.theindiancraftstore.com/cdn/shop/files/IMG_20230207_223625.jpg?v=1698067188" alt="Thumbnail 3"> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1 class="product-title" id="product-title">Chikankari Embroidered Kurta</h1>
+                    <div class="product-artisan">
+                        <div class="artisan-image">
+                            <img src="https://media.istockphoto.com/id/1412820808/photo/female-designer-measuring-embroidered-fabric.jpg?s=612x612&w=0&k=20&c=x5eGzxYvx1vnP326dtRRvE1-9EUJVsRmImqTSwGWPYI=" alt="Artisan">
+                        </div>
+                        <div class="artisan-name">By <a href="artisan-detail.html?id=1" id="artisan-name">Aisha Khan</a></div>
+                    </div>
+                    
+                    <div class="product-price" id="product-price">₹2,500</div>
+                    
+                    <div class="product-description">
+                        <p>This exquisite Chikankari Kurta is handcrafted with intricate embroidery by skilled artisans. Made from 100% pure cotton, this piece showcases the traditional craftsmanship of Lucknow. The elegant white-on-white thread work features classic Chikankari motifs including paisley patterns, floral designs, and geometric shapes.</p>
+                        <p>Each piece takes approximately 15-20 days to complete, making it a true labor of love and dedication.</p>
+                    </div>
+                    
+                    <div class="product-attributes">
+                        <div class="attribute-group">
+                            <span class="attribute-label">Size</span>
+                            <div class="attribute-options">
+                                <div class="attribute-option">S</div>
+                                <div class="attribute-option active">M</div>
+                                <div class="attribute-option">L</div>
+                                <div class="attribute-option">XL</div>
+                            </div>
+                        </div>
+                        
+                        <div class="attribute-group">
+                            <span class="attribute-label">Color</span>
+                            <div class="attribute-options">
+                                <div class="attribute-color active" style="background-color: #e8f1f5;"></div>
+                                <div class="attribute-color" style="background-color: #f5e8e8;"></div>
+                                <div class="attribute-color" style="background-color: #e8f5e8;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-quantity">
+                        <span class="quantity-label">Quantity</span>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" class="quantity-input" id="quantity-input" value="1" min="1">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCartFromDetail()">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="product-meta">
+                        <div class="product-meta-item">
+                            <span class="product-meta-label">SKU:</span>
+                            <span>CK-KRT-001</span>
+                        </div>
+                        <div class="product-meta-item">
+                            <span class="product-meta-label">Categories:</span>
+                            <span>Kurta, Women's Wear</span>
+                        </div>
+                        <div class="product-meta-item">
+                            <span class="product-meta-label">Tags:</span>
+                            <span>Chikankari, Handcrafted, Cotton</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-share">
+                        <div class="share-label">Share this product:</div>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn share-facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="share-btn share-twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="share-btn share-pinterest"><i class="fab fa-pinterest-p"></i></a>
+                            <a href="#" class="share-btn share-whatsapp"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-tabs">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="description">Description</button>
+                    <button class="tab-btn" data-tab="details">Additional Details</button>
+                    <button class="tab-btn" data-tab="reviews">Reviews</button>
+                    <button class="tab-btn" data-tab="shipping">Shipping & Returns</button>
+                </div>
+                
+                <div class="tab-content active" id="description-tab">
+                    <h3>Product Description</h3>
+                    <p>This handcrafted Chikankari Kurta is a testament to the rich cultural heritage of Lucknow's traditional embroidery. Each piece is meticulously crafted by skilled artisans who have inherited this craft through generations.</p>
+                    <p>The intricate embroidery features a blend of 36 different stitches that create a three-dimensional effect on the fabric. The elegant white thread work on cool blue cotton fabric showcases classic Chikankari motifs including paisley patterns, floral designs, and geometric shapes.</p>
+                    <p>This versatile piece can be paired with cotton pants or palazzos for a casual day look or dressed up with silk bottoms and statement jewelry for special occasions.</p>
+                </div>
+                
+                <div class="tab-content" id="details-tab">
+                    <h3>Product Specifications</h3>
+                    <ul>
+                        <li><strong>Material:</strong> 100% Pure Cotton</li>
+                        <li><strong>Embroidery Type:</strong> Hand Embroidered Chikankari</li>
+                        <li><strong>Care Instructions:</strong> Gentle hand wash with mild detergent, Do not bleach, Iron on medium heat</li>
+                        <li><strong>Origin:</strong> Lucknow, Uttar Pradesh, India</li>
+                        <li><strong>Production Time:</strong> 15-20 days per piece</li>
+                        <li><strong>Sizing:</strong> Regular fit, Please check size chart for measurements</li>
+                    </ul>
+                </div>
+                
+                <div class="tab-content" id="reviews-tab">
+                    <h3>Customer Reviews</h3>
+                    <div class="reviews-summary">
+                        <div class="average-rating">4.8</div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="review-count">Based on 24 reviews</div>
+                    </div>
+                    
+                    <div class="review-list">
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-name">Priya Sharma</div>
+                                <div class="review-date">June 12, 2024</div>
+                            </div>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="review-content">
+                                <p>This kurta exceeded my expectations! The embroidery is exquisite and the fabric quality is excellent. It drapes beautifully and feels comfortable even in summer heat. Highly recommend!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-name">Rajesh Kumar</div>
+                                <div class="review-date">May 28, 2024</div>
+                            </div>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <div class="review-content">
+                                <p>Bought this as a gift for my wife and she absolutely loves it. The craftsmanship is outstanding and the delivery was prompt. The only thing that could be improved is more size options.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="shipping-tab">
+                    <h3>Shipping Information</h3>
+                    <p>We offer the following shipping options:</p>
+                    <ul>
+                        <li><strong>Standard Shipping (India):</strong> 3-5 business days, ₹150</li>
+                        <li><strong>Express Shipping (India):</strong> 1-2 business days, ₹350</li>
+                        <li><strong>International Shipping:</strong> 7-14 business days, rates vary by location</li>
+                    </ul>
+                    
+                    <h3>Return Policy</h3>
+                    <p>We accept returns within 14 days of delivery for unused items in their original packaging. Custom-made items cannot be returned unless there's a manufacturing defect.</p>
+                    <p>To initiate a return, please contact our customer service team at returns@chikankariartisans.com with your order number and reason for return.</p>
+                </div>
+            </div>
+            
+            <div class="related-products">
+                <h2 class="related-title">You May Also Like</h2>
+                <div class="related-grid" id="related-products-container">
+                    <!-- Related products will be loaded by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Chikankari Artisans</h3>
+                <p>We connect traditional artisans with global customers, preserving the rich heritage of Chikankari embroidery while ensuring fair compensation for skilled craftspeople.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Chikan Gali, Lucknow, UP, India</p>
+                <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope"></i> info@chikankariartisans.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Admin Section</h3>
+                <ul>
+                    <li><a href="admin/index.html">Admin Login</a></li>
+                    <li><a href="admin/dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chikankari Artisans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js?v=1.1"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            // Find product in our products array (defined in script.js)
+            let product = products.find(p => p.id == productId);
+            
+            // If product not found, use default product
+            if (!product) {
+                product = products[0]; // Use first product as default
+            }
+            
+            // Update product details on page
+            updateProductDetails(product);
+            
+            // Load related products
+            loadRelatedProducts(product.id);
+            
+            // Initialize tabs
+            initTabs();
+            
+            // Initialize product thumbnails
+            initThumbnails();
+            
+            // Initialize attribute options
+            initAttributes();
+        });
+        
+        // Update product details
+        function updateProductDetails(product) {
+            document.getElementById('product-breadcrumb-name').textContent = product.name;
+            document.getElementById('product-title').textContent = product.name;
+            document.getElementById('artisan-name').textContent = product.artisan;
+            document.getElementById('product-price').textContent = `₹${product.price.toLocaleString('en-IN')}`;
+            document.getElementById('main-product-image').src = product.image;
+        }
+        
+        // Load related products
+        function loadRelatedProducts(currentProductId) {
+            const relatedContainer = document.getElementById('related-products-container');
+            
+            // Get 3 random products that are not the current product
+            const relatedProducts = products
+                .filter(p => p.id != currentProductId)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3);
+            
+            relatedProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="artisan-name">By ${product.artisan}</p>
+                        <span class="price">₹${product.price}</span>
+                        <div class="product-buttons">
+                            <button onclick="addToCart(${product.id})" class="btn primary-btn add-to-cart-btn" style="background-color: #e91e63; color: white; font-weight: bold;">
+                                <i class="fas fa-shopping-cart"></i> ADD TO CART
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                relatedContainer.appendChild(productCard);
+            });
+        }
+        
+        // Initialize tabs
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activate clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(`${button.dataset.tab}-tab`).classList.add('active');
+                });
+            });
+        }
+        
+        // Initialize thumbnails
+        function initThumbnails() {
+            const thumbnails = document.querySelectorAll('.product-thumbnail');
+            const mainImage = document.getElementById('main-product-image');
+            
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', () => {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+                    
+                    // Add active class to clicked thumbnail
+                    thumbnail.classList.add('active');
+                    
+                    // Update main image
+                    mainImage.src = thumbnail.dataset.src;
+                });
+            });
+        }
+        
+        // Initialize attribute options
+        function initAttributes() {
+            // Size options
+            const sizeOptions = document.querySelectorAll('.attribute-options .attribute-option');
+            
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove active class from all options in the same group
+                    option.parentElement.querySelectorAll('.attribute-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked option
+                    option.classList.add('active');
+                });
+            });
+            
+            // Color options
+            const colorOptions = document.querySelectorAll('.attribute-options .attribute-color');
+            
+            colorOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove active class from all options in the same group
+                    option.parentElement.querySelectorAll('.attribute-color').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked option
+                    option.classList.add('active');
+                });
+            });
+        }
+        
+        // Quantity controls
+        function increaseQuantity() {
+            const input = document.getElementById('quantity-input');
+            input.value = parseInt(input.value) + 1;
+        }
+        
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity-input');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+        
+        // Add to cart from product detail page
+        function addToCartFromDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id')) || 1; // Default to 1 if not found
+            const quantity = parseInt(document.getElementById('quantity-input').value) || 1;
+            
+            // Find the product
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            // Add to cart multiple times based on quantity
+            for (let i = 0; i < quantity; i++) {
+                addToCart(productId);
+            }
+        }
+    </script>
+</body>
+</html> 

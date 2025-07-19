@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisans - Chikankari Artisans</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to artisans page */
+        .artisans-banner {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://media.istockphoto.com/id/1440897199/photo/indian-women-hand-embroidering-traditional-chikankari-work-close-up-selective-focus.jpg?s=612x612&w=0&k=20&c=6nFUto85C8astNnJ0Mdn2_m87FzAaCyLzKHgKxC1bRE=');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+        
+        .artisans-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .artisans-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .artisans-container {
+            padding: 5rem 2rem;
+        }
+        
+        .artisans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .artisan-profile {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        /*.artisan-profile:hover {
+            transform: translateY(-10px);
+        }*/
+        
+        .artisan-cover {
+            height: 150px;
+            background-color: var(--primary-color);
+            position: relative;
+        }
+        
+       /* .artisan-avatar {
+            width: 120px;
+            height: 120px;
+            
+            border: 5px solid white;
+            position: absolute;
+            bottom: -60px;
+            left: calc(50% - 60px);
+            overflow: hidden;
+        }
+        
+        .artisan-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }*/
+        
+        .artisan-info {
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+        }
+        
+        .artisan-info h3 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artisan-specialty {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artisan-location {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .artisan-location i {
+            margin-right: 0.5rem;
+        }
+        
+        .artisan-bio {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .artisan-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+        }
+        
+        .artisan-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-form {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+        
+        .search-input {
+            display: flex;
+        }
+        
+        .search-input input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .search-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .filter-options select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .join-section {
+            background-color: var(--light-color);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        
+        .join-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .join-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .join-content p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .join-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .join-step {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-weight: 600;
+        }
+        
+        .join-step h3 {
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .artisans-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .artisans-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 2rem;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-form {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1></h1>
+                <img src="https://thechikankari.com/cdn/shop/files/Chikan_kari-01_eebe52d6-4137-4ed3-9d5c-a385cc9e0be4.png?height=628&pad_color=ffffff&v=1725889734&width=1200" alt="Chikankari Artisans Logo" style="height:100px;">
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="artisans.html" class="active">Artisans</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="login-btn"><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="artisans-banner">
+            <div class="container">
+                <h1>Meet Our Talented Artisans</h1>
+                <p>Dedicated craftspeople preserving the ancient art of Chikankari embroidery and bringing it to the modern world</p>
+            </div>
+        </div>
+
+        <div class="artisans-container container">
+            <div class="filter-bar">
+                <form class="search-form" id="artisan-search">
+                    <div class="search-input">
+                        <input type="text" placeholder="Search artisans by name or specialty..." name="search">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <div class="filter-options">
+                    <select id="location-filter">
+                        <option value="">All Locations</option>
+                        <option value="lucknow">Lucknow</option>
+                        <option value="varanasi">Varanasi</option>
+                        <option value="jaipur">Jaipur</option>
+                        <option value="delhi">Delhi</option>
+                    </select>
+                    <select id="specialty-filter">
+                        <option value="">All Specialties</option>
+                        <option value="kurta">Kurta</option>
+                        <option value="saree">Saree</option>
+                        <option value="home-decor">Home Decor</option>
+                        <option value="dupatta">Dupatta</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="artisans-grid" id="artisans-container">
+                <!-- Artisans will be loaded via JavaScript -->
+            </div>
+        </div>
+
+        <div class="join-section">
+            <div class="join-content">
+                <h2>Join Our Artisan Community</h2>
+                <p>Are you a skilled Chikankari craftsperson? Join our platform to showcase your creations directly to customers and earn fair compensation for your work.</p>
+                
+                <div class="join-steps">
+                    <div class="join-step">
+                        <div class="step-number">1</div>
+                        <h3>Register</h3>
+                        <p>Create an account as an artisan with your details and specialty.</p>
+                    </div>
+                    <div class="join-step">
+                        <div class="step-number">2</div>
+                        <h3>Submit Portfolio</h3>
+                        <p>Upload images of your work and set up your artisan profile.</p>
+                    </div>
+                    <div class="join-step">
+                        <div class="step-number">3</div>
+                        <h3>List Products</h3>
+                        <p>Start listing your handcrafted Chikankari products on our platform.</p>
+                    </div>
+                </div>
+                
+                <a href="artisan-register.html" class="btn primary-btn">Join as an Artisan</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Chikankari Artisans</h3>
+                <p>Connecting artisans directly with customers, preserving tradition while ensuring fair compensation.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Section</h3>
+                <ul>
+                    <li><a href="login.html">Login / Register</a></li>
+                    <li><a href="orders.html">Track Orders</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Artisan Section</h3>
+                <ul>
+                    <li><a href="artisan-login.html">Artisan Login</a></li>
+                    <li><a href="artisan-register.html">Join as Artisan</a></li>
+                    <li><a href="dashboard.html">Artisan Dashboard</a></li>
+                    <li><a href="artisan-help.html">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chikankari Artisans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Sample expanded artisan data (in a real application, this would come from a database)
+        const detailedArtisans = [
+            {
+                id: 1,
+                name: "Priyanka Viswakarma",
+                specialty: "Traditional Kurtas",
+                specialtyCategory: "kurta",
+                location: "Lucknow, UP",
+                locationCategory: "lucknow",
+                bio: "Priyanka has been practicing Chikankari embroidery for over 15 years, learning the craft from her grandmother. She specializes in creating intricate floral patterns on cotton kurtas.",
+                products: 24,
+                customers: 150,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                name: "Chandan Singh",
+                specialty: "Hand-stitched Sarees",
+                specialtyCategory: "saree",
+                
+                location: "Varanasi, UP",
+                locationCategory: "varanasi",
+                bio: "Chandan comes from a family with a 100-year tradition of textile work. His hand-stitched Chikankari sarees are known for their exceptional quality and intricate designs.",
+                products: 18,
+                customers: 120,
+                rating: 4.9
+            },
+            {
+                id: 3,
+                name: "Mohm. Anas",
+                specialty: "Home Decor Items",
+                specialtyCategory: "home-decor",
+               
+                location: "Jaipur, Rajasthan",
+                locationCategory: "jaipur",
+                bio: "Anas brings Chikankari embroidery to home decor, creating beautiful cushion covers, table runners, and wall hangings that blend traditional craft with contemporary design.",
+                products: 32,
+                customers: 200,
+                rating: 4.7
+            },
+            {
+                id: 4,
+                name: "Himanshu Singh",
+                specialty: "Embroidered Dupattas",
+                specialtyCategory: "dupatta",
+                
+                location: "Lucknow, UP",
+                locationCategory: "lucknow",
+                bio: "Himanshu's family has been creating Chikankari dupattas for generations. His work features traditional motifs with a modern twist, appealing to customers of all ages.",
+                products: 28,
+                customers: 180,
+                rating: 4.6
+            },
+            {
+                id: 5,
+                name: "Renu Prajapati",
+                specialty: "Contemporary Kurtas",
+                specialtyCategory: "kurta",
+                
+                location: "Delhi",
+                locationCategory: "delhi",
+                bio: "Renu is passionate about making Chikankari relevant for modern fashion. Her contemporary kurta designs incorporate traditional techniques with modern cuts and colors.",
+                products: 22,
+                customers: 140,
+                rating: 4.8
+            },
+            {
+                id: 6,
+                name: "Harshit Singh",
+                specialty: "Traditional Home Decor",
+                specialtyCategory: "home-decor",
+                
+                location: "Jaipur, Rajasthan",
+                locationCategory: "jaipur",
+                bio: "Harshit creates exquisite Chikankari pieces for home decor that celebrate the rich heritage of this craft. Each piece is meticulously handcrafted with attention to detail.",
+                products: 20,
+                customers: 130,
+                rating: 4.7
+            }
+        ];
+
+        // Display artisans function
+        function displayArtisans(artisans) {
+            const artisansContainer = document.getElementById('artisans-container');
+            
+            if (!artisansContainer) return;
+            
+            // Clear any existing artisans
+            artisansContainer.innerHTML = '';
+            
+            if (artisans.length === 0) {
+                artisansContainer.innerHTML = '<p class="no-results">No artisans found matching your criteria. Please try a different search or filter.</p>';
+                return;
+            }
+            
+            artisans.forEach(artisan => {
+                const artisanCard = document.createElement('div');
+                artisanCard.className = 'artisan-profile';
+                
+                // Calculate star rating display
+                const fullStars = Math.floor(artisan.rating);
+                const halfStar = artisan.rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                
+                let starsHTML = '';
+                for (let i = 0; i < fullStars; i++) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                }
+                if (halfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+                
+                artisanCard.innerHTML = `
+                    <div class="artisan-cover"></div>
+                    <div class="artisan-avatar">
+                        <img src="${artisan.image}" alt="${artisan.name}" onerror="this.src='images/placeholder.jpg'">
+                    </div>
+                    <div class="artisan-info">
+                        <h3>${artisan.name}</h3>
+                        <p class="artisan-specialty">${artisan.specialty}</p>
+                        <p class="artisan-location"><i class="fas fa-map-marker-alt"></i> ${artisan.location}</p>
+                        <p class="artisan-bio">${artisan.bio}</p>
+                        <div class="artisan-stats">
+                            <div class="stat">
+                                <div class="stat-value">${artisan.products}</div>
+                                <div class="stat-label">Products</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${artisan.customers}</div>
+                                <div class="stat-label">Customers</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${starsHTML}</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <div class="artisan-actions">
+                            <a href="artisan-details.html?id=${artisan.id}" class="btn primary-btn">View Profile</a>
+                            <a href="shop.html?artisan=${artisan.id}" class="btn secondary-btn">View Products</a>
+                        </div>
+                    </div>
+                `;
+                
+                artisansContainer.appendChild(artisanCard);
+            });
+        }
+
+        // Filter artisans function
+        function filterArtisans() {
+            const searchForm = document.getElementById('artisan-search');
+            const locationFilter = document.getElementById('location-filter');
+            const specialtyFilter = document.getElementById('specialty-filter');
+            
+            // Create a function that applies all current filters
+            function applyFilters() {
+                const searchTerm = searchForm.search.value.toLowerCase();
+                const locationValue = locationFilter.value;
+                const specialtyValue = specialtyFilter.value;
+                
+                // Apply filters
+                const filteredArtisans = detailedArtisans.filter(artisan => {
+                    const matchesSearch = searchTerm === '' || 
+                                          artisan.name.toLowerCase().includes(searchTerm) || 
+                                          artisan.specialty.toLowerCase().includes(searchTerm) ||
+                                          artisan.bio.toLowerCase().includes(searchTerm);
+                    
+                    const matchesLocation = locationValue === '' || 
+                                            artisan.locationCategory === locationValue;
+                    
+                    const matchesSpecialty = specialtyValue === '' || 
+                                             artisan.specialtyCategory === specialtyValue;
+                    
+                    return matchesSearch && matchesLocation && matchesSpecialty;
+                });
+                
+                // Display filtered artisans
+                displayArtisans(filteredArtisans);
+            }
+            
+            // Event listeners for form and filters
+            searchForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                applyFilters();
+            });
+            
+            locationFilter.addEventListener('change', applyFilters);
+            specialtyFilter.addEventListener('change', applyFilters);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayArtisans(detailedArtisans);
+            filterArtisans();
+        });
+    </script>
+</body>
+</html> 
